@@ -117,5 +117,7 @@ new_stack_z <- ggplot(z_com_long, aes(y = Taxonomy, x = value, fill = type, patt
 
 new_stack_z
 
+## Figure 5
+
 hic_iphop <- ggarrange(new_stack, new_stack_z, nrow = 2, ncol = 1)
 hic_iphop
