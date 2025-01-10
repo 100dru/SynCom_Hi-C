@@ -12,4 +12,5 @@ module load MetaCC
 
 cd /fs/ess/PAS1117/HiC/6thRoundTests/HiC
 
+### here filename=${i}; for i in `ls -1 *_MAP_SORTED.bam | sed 's/_MAP_SORTED.bam//'`
 MetaCC norm -e Sau3AI -e MluCI NewHiCRef.fasta ${filename}_MAP_SORTED.bam /fs/ess/PAS1117/HiC/6thRoundTests/HiC/metacc/${filename}_out
