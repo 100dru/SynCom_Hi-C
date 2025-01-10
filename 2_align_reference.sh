@@ -7,7 +7,11 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=shatadru.2@osu.edu
 
-### here filename=${i}; for i in `ls -1 *_R1_clean.fastq.gz | sed 's/_R1_clean.fastq.gz//'`
+## here filename=${i}. the terminal code is:
+
+#for i in `ls -1 *_R1_clean.fastq.gz | sed 's/_R1_clean.fastq.gz//'`
+#do sbatch --export=filename=${i} bwa_mock.sh
+#done
 
 module use /fs/project/PAS1117/modulefiles
 module load bwa/0.7.17-r1198
