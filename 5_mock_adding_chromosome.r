@@ -96,3 +96,14 @@ all_phage_host <- all_phage_host %>%
 
 write.table(all_phage_host, file = "all_phage_host_chromosome_sum.csv", sep = ',')
 
+## calculating z score
+mock_1N1$z_score <- (mock_1N1$Score - mean(mock_1N1$Score, na.rm = TRUE)) / sd(mock_1N1$Score, na.rm = TRUE)
+mock_1N2$z_score <- (mock_1N2$Score - mean(mock_1N2$Score, na.rm = TRUE)) / sd(mock_1N2$Score, na.rm = TRUE)
+mock_1N3$z_score <- (mock_1N3$Score - mean(mock_1N3$Score, na.rm = TRUE)) / sd(mock_1N3$Score, na.rm = TRUE)
+mock_1B1$z_score <- (mock_1B1$Score - mean(mock_1B1$Score, na.rm = TRUE)) / sd(mock_1B1$Score, na.rm = TRUE)
+mock_1B3$z_score <- (mock_1B3$Score - mean(mock_1B3$Score, na.rm = TRUE)) / sd(mock_1B3$Score, na.rm = TRUE)
+mock_1D1$z_score <- (mock_1D1$Score - mean(mock_1D1$Score, na.rm = TRUE)) / sd(mock_1D1$Score, na.rm = TRUE)
+mock_1D2$z_score <- (mock_1D2$Score - mean(mock_1D2$Score, na.rm = TRUE)) / sd(mock_1D2$Score, na.rm = TRUE)
+mock_1D3$z_score <- (mock_1D3$Score - mean(mock_1D3$Score, na.rm = TRUE)) / sd(mock_1D3$Score, na.rm = TRUE)
+
+
