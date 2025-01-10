@@ -301,28 +301,9 @@ z_dot_3N3 <- create_z_dot_plot(mock_3N3)
 z_dot_1B1
 z_dot_1N3
 
-### figure paper arrangement
-Fig_2_before_binary <- ggarrange(tile_1N1, tile_1N2, tile_1N3, tile_2N1, tile_2N2, tile_2N3, tile_3N1, tile_3N3,
-                              labels = c("Mock 1.1", "Mock 1.2", "Mock 1.3", "Mock 2.1", "Mock 2.2", "Mock 2.3", "Mock 3.1", "Mock 3.2"),  
-                              common.legend = TRUE, legend = "bottom",
-                              ncol = 4, nrow = 2)
 
+#Figure 2
 
-Fig_2_before_binary
-
-Fig_2_before_dot <- ggarrange(dot_1N1, dot_1N2, dot_1N3, dot_2N1, dot_2N2, dot_2N3, dot_3N1, dot_3N3,
-                                 labels = c("Mock 1.1", "Mock 1.2", "Mock 1.3", "Mock 2.1", "Mock 2.2", "Mock 2.3", "Mock 3.1", "Mock 3.2"),  
-                                 common.legend = TRUE, legend = "bottom",
-                                 ncol = 4, nrow = 2)
-
-
-Fig_2_before_dot
-
-Figure_2_before <- ggarrange(Fig_2_before_binary, Fig_2_before_dot, ncol = 1, nrow = 2)
-Figure_2_before
-
-
-## version 2
 
 Fig_2_mock1_before <- ggarrange(tile_1N1,dot_1N1, tile_1N2,  dot_1N2, tile_1N3, dot_1N3,
                          labels = c("Mock 1.1", "", "Mock 1.2", "", "Mock 1.3", ""),  
@@ -412,7 +393,7 @@ sup_after
 #ggsave("C:/Users/shatadru.2/OneDrive - The Ohio State University/LAB/Hi-C/paper_unit/Figures/Figure_2/Sup_4_after.pdf", 
        plot = sup_after, width = 16, height = 9, units = "in", dpi = 300)
 
-##vrsion 2
+##Figure 3
 
 Fig_3_preservatives <- ggarrange( z_tile_1D1, z_dot_1D1, z_tile_1D2, z_dot_1D2, z_tile_1D3, z_dot_1D3, 
                                   z_tile_1B1, z_dot_1B1, z_tile_1B3,  z_dot_1B3, 
