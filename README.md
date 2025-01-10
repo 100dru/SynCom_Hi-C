@@ -24,10 +24,10 @@ For the natural community, ```6_sum_scores_by_mag_mire.py``` was used on the out
 
 For further analysis, the rest of the scripts are generated for merging tables, Z-score calculation and figure analysis. 
 
-For the mock community, ```11_mock_figure.r``` was used to generate the figures.
+For the mock community, ```11_mock_figure.r``` was used to generate the figures locally.
 
 For the natural community the following were done:
 1. generate z-score (```7_z_score_mire.py```)
 2. merge GTDB prediction based on MAG (```8_merge_gtdb_hic.py```)
 3. merge iPHoP results and Hi-C results based on viruses (```9_merge_iphop_hic.py```)
-4. Generate figure (```10_hic_iphop_analysis.r```)
+4. Generate figure locally (```10_hic_iphop_analysis.r```)
