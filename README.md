@@ -14,6 +14,7 @@ Natural Community directory: ``` /fs/ess/PAS1117/HiC/7thRoundTests/HiC ```
 
 ## Step 2
 The output of metaCC is in the Sparse Matrix format. The extraction was done using the ```4_extract_matrix.py``` script. This is done in the output directory of MetaCC ususally named as ```${filename}_out```. 
+All the python scripts here are ran on python3. 
 
 Because there are multiple contigs for each genome, the scores of multiple contigs were summed together for each genome.
 
