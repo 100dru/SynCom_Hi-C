@@ -287,3 +287,431 @@ sens_spec_long <- sens_spec_result %>%
     values_to = "Value"
   )
 
+         # Filter data and create the main plot
+# Filter out rows where Host is "none" or Score is NA
+# Reverse the order of Prediction factor levels
+# Create a ggplot object with Host on y-axis and Score on x-axis
+# Add jittered points with specific fill colors based on Prediction
+# Customize fill color manual scale
+# Facet the plot by experiment and sample, with free scales
+# Apply classic theme and customize axis text and legend position
+main_plot <- scores_key %>%
+  filter(Host != "none", !is.na(Score)) %>%
+  mutate(Prediction = fct_rev(Prediction)) %>%
+  ggplot(aes(y = Host, x = Score)) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("gray70", "gray30")) +
+  facet_grid(experiment ~ sample, scales = "free") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+# Plot specific samples with different faceting and scales
+# Filter out rows where Score is NA and specific samples are selected
+# Create a ggplot object with Host on y-axis and Score on x-axis
+# Add jittered points with specific fill colors based on Prediction
+# Customize fill color manual scale
+# Facet the plot by sample with 3 rows and free x scales
+# Apply classic theme and customize axis text and legend position
+p0A1 <- scores_key %>%
+  filter(!is.na(Score), sample %in% c("1-N1", "1-N2", "1-N3")) %>%
+  ggplot(aes(y = Host, x = Score)) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("black", "gray70")) +
+  facet_wrap(~sample, nrow = 3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 0, hjust = 1))
+
+# Repeat the same process for other specific samples
+p0A2 <- scores_key %>%
+  filter(!is.na(Score), sample %in% c("1-D1", "1-D2", "1-D3")) %>%
+  ggplot(aes(y = Host, x = Score)) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("black", "gray70")) +
+  facet_wrap(~sample, nrow = 3, scales = "free_x", dir = "v") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 0, hjust = 1))
+
+p0A3 <- scores_key %>%
+  filter(!is.na(Score), sample %in% c("1-B1", "1-B3")) %>%
+  ggplot(aes(y = Host, x = Score)) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("black", "gray70")) +
+  facet_wrap(~sample, nrow = 3, scales = "free_x", dir = "v") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+p0A4 <- scores_key %>%
+  filter(!is.na(Score), sample %in% c("2-N1", "2-N2", "2-N3")) %>%
+  ggplot(aes(y = Host, x = Score)) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("black", "gray70")) +
+  facet_wrap(~sample, nrow = 3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+p0A5 <- scores_key %>%
+  filter(!is.na(Score), sample %in% c("3-N1", "3-N3")) %>%
+  ggplot(aes(y = Host, x = Score)) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("black", "gray70")) +
+  facet_wrap(~sample, nrow = 3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+# Plot with z_score instead of Score and with additional customization
+p0B <- scores_key %>%
+  filter(!is.na(Score)) %>%
+  arrange(filt_type) %>%
+  ggplot(aes(y = Host, x = z_score)) +
+  geom_vline(xintercept = 0.5, color = "gray", linetype = 2, linewidth = 1) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("black", "gray70")) +
+  facet_wrap(~sample, nrow = 3, scales = "fixed") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+# Plot specific samples with z_score and additional customization
+p0B1 <- scores_key %>%
+  filter(!is.na(Score), sample %in% c("1-N1", "1-N2", "1-N3")) %>%
+  ggplot(aes(y = Host, x = z_score)) +
+  geom_vline(xintercept = 0.5, color = "red", linetype = "dotted", linewidth = 1) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("black", "gray70")) +
+  xlim(-1, 4) +
+  facet_wrap(~sample, nrow = 3, scales = "free") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 0, hjust = 1))
+
+# Repeat the same process for other specific samples with z_score
+p0B2 <- scores_key %>%
+  filter(Host != "none", !is.na(Score), sample %in% c("1-B1", "1-B3")) %>%
+  ggplot(aes(y = Host, x = z_score)) +
+  geom_vline(xintercept = 0.5, color = "red", linetype = 'dotted', linewidth = 1) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("black", "gray70")) +
+  xlim(-1, 4) +
+  facet_wrap(~sample, nrow = 3, scales = "free") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+p0B3 <- scores_key %>%
+  filter(Host != "none", !is.na(Score), sample %in% c("1-D1", "1-D2", "1-D3")) %>%
+  ggplot(aes(y = Host, x = z_score)) +
+  geom_vline(xintercept = 0.5, color = "red", linetype = 'dotted', linewidth = 1) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("black", "gray70")) +
+  xlim(-1, 4) +
+  facet_wrap(~sample, nrow = 3, scales = "free") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 0, hjust = 1))
+
+p0B4 <- scores_key %>%
+  filter(Host != 'none', !is.na(Score), sample %in% c("2-N1", "2-N2", "2-N3")) %>%
+  ggplot(aes(y = Host, x = z_score)) +
+  geom_vline(xintercept = 0.5, color = "red", linetype = 'dotted', linewidth = 1) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("black", "gray70")) +
+  xlim(-1, 4) +
+  facet_wrap(~sample, nrow = 3, scales = "free") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 0, hjust = 1))
+
+p0B5 <- scores_key %>%
+  filter(Host != "none", !is.na(Score), sample %in% c("3-N1", "3-N3")) %>%
+  ggplot(aes(y = Host, x = z_score)) +
+  geom_vline(xintercept = 0.5, color = "red", linetype = 'dotted', linewidth = 1) +
+  geom_point(aes(fill = Prediction), shape = 21, color = "black", size = 1.5, alpha = 0.9, position = position_jitter(height = 0.3, width = 0)) +
+  scale_fill_manual(values = c("black", "gray70")) +
+  xlim(-1, 4) +
+  facet_wrap(~sample, nrow = 3, scales = "free") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 0, hjust = 1))
+
+# Create heatmap plots for specific samples
+p0C1 <- scores_key %>%
+  filter(Host != "none", !is.na(Score), sample %in% c("1-N1", "1-N2", "1-N3")) %>%
+  ggplot(aes(y = Host, x = Phage)) +
+  geom_tile(aes(fill = type), color = "white") +
+  scale_fill_manual(values = c("T-P" = "black", "T-N" = "white", "F-P" = "gray60", "F-N" = "gray60"),
+                    labels = c("T-P" = "True Positive", "T-N" = "True Negative", "F-P" = "False Positive", "F-N" = "False Negative"),
+                    na.value = NA) +
+  facet_wrap(~sample, nrow = 3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+# Repeat the same process for other specific samples
+p0C2 <- scores_key %>%
+  filter(Host != "none", !is.na(Score), sample %in% c("1-D1", "1-D2", "1-D3")) %>%
+  ggplot(aes(y = Host, x = Phage)) +
+  geom_tile(aes(fill = type), color = "white") +
+  scale_fill_manual(values = c("T-P" = "black", "T-N" = "gray90", "F-P" = "gray60", "F-N" = "gray60"),
+                    labels = c("T-P" = "True Positive", "T-N" = "True Negative", "F-P" = "False Positive", "F-N" = "False Negative"),
+                    na.value = NA) +
+  facet_wrap(~sample, nrow = 3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+p0C3 <- scores_key %>%
+  filter(Host != "none", !is.na(Score), sample %in% c("1-B1", "1-B3")) %>%
+  ggplot(aes(y = Host, x = Phage)) +
+  geom_tile(aes(fill = type), color = "white") +
+  scale_fill_manual(values = c("T-P" = "black", "T-N" = "gray90", "F-P" = "gray60", "F-N" = "gray60"),
+                    labels = c("T-P" = "True Positive", "T-N" = "True Negative", "F-P" = "False Positive", "F-N" = "False Negative"),
+                    na.value = NA) +
+  facet_wrap(~sample, nrow = 3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+p0C4 <- scores_key %>%
+  filter(Host != "none", !is.na(Score), sample %in% c("2-N1", "2-N2", "2-N3")) %>%
+  ggplot(aes(y = Host, x = Phage)) +
+  geom_tile(aes(fill = type), color = "white") +
+  scale_fill_manual(values = c("T-P" = "black", "T-N" = "gray90", "F-P" = "gray60", "F-N" = "gray60"),
+                    labels = c("T-P" = "True Positive", "T-N" = "True Negative", "F-P" = "False Positive", "F-N" = "False Negative"),
+                    na.value = NA) +
+  facet_wrap(~sample, nrow = 3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+p0C5 <- scores_key %>%
+  filter(Host != "none", !is.na(Score), sample %in% c("3-N1", "3-N3")) %>%
+  ggplot(aes(y = Host, x = Phage)) +
+  geom_tile(aes(fill = type), color = "white") +
+  scale_fill_manual(values = c("T-P" = "black", "T-N" = "gray90", "F-P" = "gray60", "F-N" = "gray60"),
+                    labels = c("T-P" = "True Positive", "T-N" = "True Negative", "F-P" = "False Positive", "F-N" = "False Negative"),
+                    na.value = NA) +
+  facet_wrap(~sample, nrow = 3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+# Create heatmap plots with conditional fill
+p0D <- scores_key %>%
+  filter(Host != "none", !is.na(Score)) %>%
+  ggplot(aes(y = Host, x = Phage)) +
+  geom_tile(aes(fill = ifelse(z_score > 0.5, type, NA)), color = "white") +
+  scale_fill_brewer(palette = "Greys", direction = 1, na.value = NA) +
+  facet_wrap(~sample, nrow = 3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+         p0D1 = scores_key %>% 
+  filter(Host != "none",sample %in% c("1-N1", "1-N2", "1-N3")) %>% 
+  ggplot(aes(y = Host, x = Phage)) + 
+  geom_tile(aes(fill = ifelse(z_score>0.5, type, NA)), color = "white") +
+  scale_fill_manual(values = c("T-P" = "black", "T-N" = "gray90", "F-P" = "gray60", "F-N" = "gray60"), 
+                    labels = c("T-P" = "True Positive", "T-N" = "True Negative", "F-P" = "False Positive", "F-N" = "False Negative"), 
+                    na.value = NA) + 
+  facet_wrap(sample~., nrow=3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+p0D1
+
+p0D2 = scores_key %>% 
+  filter(Host != "none",sample %in% c( "1-D1", "1-D2", "1-D3")) %>% 
+  ggplot(aes(y = Host, x = Phage)) + 
+  geom_tile(aes(fill = ifelse(z_score>0.5, type, NA)), color = "white") +
+  scale_fill_manual(values = c("T-P" = "black", "T-N" = "gray90", "F-P" = "gray60", "F-N" = "gray60"), 
+                    labels = c("T-P" = "True Positive", "T-N" = "True Negative", "F-P" = "False Positive", "F-N" = "False Negative"), 
+                    na.value = NA) + 
+  facet_wrap(sample~., nrow=3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+p0D2
+
+p0D3 = scores_key %>% 
+  filter(Host != "none",sample %in% c("1-B1", "1-B3")) %>% 
+  ggplot(aes(y = Host, x = Phage)) + 
+  geom_tile(aes(fill = ifelse(z_score>0.5, type, NA)), color = "white") +
+  scale_fill_manual(values = c("T-P" = "black", "T-N" = "gray90", "F-P" = "gray60", "F-N" = "gray60"), 
+                    labels = c("T-P" = "True Positive", "T-N" = "True Negative", "F-P" = "False Positive", "F-N" = "False Negative"), 
+                    na.value = NA) + 
+  facet_wrap(sample~., nrow=3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+p0D3
+
+p0D4 = scores_key %>% 
+  filter(Host != "none",sample %in% c("2-N1", "2-N2", "2-N3")) %>% 
+  ggplot(aes(y = Host, x = Phage)) + 
+  geom_tile(aes(fill = ifelse(z_score>0.5, 
+                              type, NA)), color = "white") +
+  scale_fill_manual(values = c("T-P" = "black", "T-N" = "gray90", "F-P" = "gray60", "F-N" = "gray60"), 
+                    labels = c("T-P" = "True Positive", "T-N" = "True Negative", "F-P" = "False Positive", "F-N" = "False Negative"), 
+                    na.value = NA) + 
+  facet_wrap(sample~., nrow=3, scales = "free_x")+
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+p0D4
+
+p0D5 = scores_key %>% 
+  filter(Host != "none",sample %in% c("3-N1", "3-N3")) %>% 
+  ggplot(aes(y = Host, x = Phage)) + 
+  geom_tile(aes(fill = ifelse(z_score>0.5, type, NA)), color = "white") +
+  scale_fill_manual(values = c("T-P" = "black", "T-N" = "gray90", "F-P" = "gray60", "F-N" = "gray60"), 
+                    labels = c("T-P" = "True Positive", "T-N" = "True Negative", "F-P" = "False Positive", "F-N" = "False Negative"), 
+                    na.value = NA) + 
+  facet_wrap(sample~., nrow=3, scales = "free_x") +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+p0D5
+
+         # Create bar plots for sensitivity and specificity metrics
+# Filter data for specific sample types and metrics
+# Create a ggplot object with sample_type on x-axis and Value on y-axis
+# Add bar geom with identity stat and dodge position
+# Customize fill color manual scale and labels
+# Apply classic theme and customize axis text
+p0E <- sens_spec_long %>%
+  filter(sample_type %in% c("1-D", "1-B", "1-N"), Metric %in% c("Avg_Filt_Sensitivity", "Avg_Filt_Specificity")) %>%
+  ggplot(aes(x = sample_type, y = Value, fill = Metric)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_manual(values = c("Avg_Filt_Specificity" = "#32373AFF", "Avg_Filt_Sensitivity" = "#9F9994FF"),
+                    labels = c("Avg_Filt_Specificity" = "Specificity", "Avg_Filt_Sensitivity" = "Sensitivity")) +
+  theme_classic() +
+  labs(x = "Synthetic Communities", y = "Percentage (%)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Repeat the same process for other sample types
+p0F <- sens_spec_long %>%
+  filter(sample_type %in% c("1-N", "2-N", "3-N"), Metric %in% c("Avg_Filt_Sensitivity", "Avg_Filt_Specificity")) %>%
+  ggplot(aes(x = sample_type, y = Value, fill = Metric)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_manual(values = c("Avg_Filt_Specificity" = "#32373AFF", "Avg_Filt_Sensitivity" = "#9F9994FF"),
+                    labels = c("Avg_Filt_Specificity" = "Specificity", "Avg_Filt_Sensitivity" = "Sensitivity")) +
+  theme_classic() +
+  labs(x = "Synthetic Communities", y = "Percentage (%)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Combine plots into figures
+# Arrange plots p0A1, p0B1, p0C1, and p0D1 in a single row for Figure 1
+Fig_1 <- ggarrange(p0A1, p0B1, p0C1, p0D1, ncol = 4, align = "h")
+
+# Arrange plots p0B3 and p0D2 in a single row for Figure 2A
+Fig_2_A <- ggarrange(p0B3, p0D2, ncol = 2, align = "h")
+
+# Arrange plots p0B2 and p0D3 in a single row for Figure 2B
+Fig_2_B <- ggarrange(p0B2, p0D3, ncol = 2, align = 'h')
+
+# Arrange plots p0B4 and p0D4 in a single row for Figure 3A
+Fig_3_A <- ggarrange(p0B4, p0D4, ncol = 2, align = 'h')
+
+# Arrange plots p0B5 and p0D5 in a single row for Figure 3B
+Fig_3_B <- ggarrange(p0B5, p0D5, ncol = 2, align = 'h')
+
+# Create heatmap plot for specific samples with customized facet labels
+# Define custom labels for samples
+syncom1_names <- c(
+  `1-N1` = "SynCom 1 replicate 1",
+  `1-N2` = "SynCom 1 replicate 2",
+  `1-N3` = "SynCom 1 replicate 3"
+)
+
+# Filter data for specific samples and create a heatmap plot
+# Customize fill color manual scale and labels
+# Facet the plot by sample with custom labels
+# Apply classic theme and customize axis text and legend position
+p0E1 <- scores_key %>%
+  filter(Host != "none", !is.na(Score), sample %in% c("1-N1", "1-N2", "1-N3")) %>%
+  ggplot(aes(y = Host, x = Phage)) +
+  geom_tile(aes(fill = ifelse(z_score > 0.5, filt_type, NA)), color = "white") +
+  scale_fill_manual(values = c("T-P" = "black", "F-P" = "gray30", "F-N" = "gray60", "T-N" = "gray90")) +
+  facet_grid(~ sample, labeller = as_labeller(syncom1_names)) +
+  theme_classic() +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+# Create scatter plot for specific samples with customized facet labels
+# Filter data for specific samples and create a scatter plot
+# Customize color manual scale and labels
+# Apply classic theme and customize axis text
+SOM1 <- scores_key %>%
+  filter(sample %in% c("1-N1", "1-N2", "1-N3")) %>%
+  ggplot(aes(x = Phage, y = Score, color = Prediction)) +
+  geom_point() +
+  scale_colour_manual(values = setNames(c('black', 'gray'), c("Correct", "Incorrect"))) +
+  theme_classic() +
+  facet_wrap(~sample, labeller = as_labeller(syncom1_names)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+# Summarize data by z-score pass and fail counts
+# Drop NA values and create binary columns for z-score pass and fail
+# Summarize counts for z-score pass and fail
+count <- scores_key %>%
+  drop_na() %>%
+  mutate(
+    z_pass = zsc_pass == "pass",
+    z_fail = zsc_pass == "fail"
+  ) %>%
+  summarize(
+    z_pass_count = sum(z_pass, na.rm = TRUE),
+    z_fail_count = sum(z_fail, na.rm = TRUE)
+  )
+
+# Pivot summarized counts to long format and create bar plot
+# Filter data for specific samples and create a bar plot
+# Customize fill color manual scale and labels
+# Apply classic theme and customize axis text
+count_long <- count %>%
+  pivot_longer(
+    cols = c(z_pass_count, z_fail_count), names_to = 'zpass', values_to = 'count'
+  )
+
+som2 <- count_long %>%
+  filter(sample %in% c("1-N1", "1-N2", "1-N3")) %>%
+  ggplot(aes(x = count, y = sample, fill = zpass)) +
+  geom_bar(position = "fill", stat = "identity") +
+  scale_fill_manual(values = c("z_pass_count" = "black", "z_fail_count" = "grey70"),
+                    labels = c("z_pass_count" = "Z-Score >= 0.54", "z_fail_count" = "Z-Score <= 0.5")) +
+  labs(x = "Percentage of Linkages", y = "Synthetic Community") +
+  theme_classic()
+
+# Create ROC curve plots for z_score and Score thresholds
+# Convert Prediction to binary values: 1 for "Correct" and 0 for "Incorrect"
+scores_key$Prediction_binary <- ifelse(scores_key$Prediction == "Correct", 1, 0)
+
+# Filter data for specific samples and calculate ROC curve for z_score
+syncom1 <- scores_key %>%
+  filter(sample %in% c("1-N1", "1-N2", "1-N3"))
+roc_obj <- roc(syncom1$Prediction_binary, syncom1$z_score, direction = "<")
+
+# Plot the ROC curve for z_score
+plot(roc_obj, col = "blue", main = "ROC Curve for z_score Thresholds")
+
+# Calculate ROC curve for Score and plot it
+roc_score <- roc(syncom1$Prediction_binary, syncom1$Score, direction = "<")
+plot(roc_score, col = "red", main = "ROC Curve for Score Thresholds")
+
+# Add the z_score ROC curve to the same plot for comparison
+plot(roc_obj, col = "blue", add = TRUE)
+
+# Add a legend to the plot
+legend("bottomright", legend = c("z_score", "Score"), col = c("blue", "red"), lwd = 2)
+
+# Calculate and print AUC for z_score
+auc_z_score <- auc(roc_obj)
+print(paste("AUC for z_score:", auc_z_score))
+
+# Calculate and print AUC for Score
+auc_score <- auc(roc_score)
+print(paste("AUC for Score:", auc_score))
+
+# Save the ROC curves to a PNG file
+png("roc_curve_mock1.png", width = 400, height = 400)
+
+# Plot both ROC curves on the same plot and add a legend with AUC values
+plot(roc_score, col = "red", main = "ROC Curve for SynCom 1 Replicates")
+plot(roc_obj, col = "blue", add = TRUE)
+legend("bottomright",
+       legend = c(paste("z_score (AUC =", round(auc_z_score, 2), ")"),
+                  paste("Score (AUC =", round(auc_score, 2), ")")),
+       col = c("blue", "red"),
+       lwd = 2)
+dev.off()
+
+# Calculate and print the threshold for z_score with the highest specificity
+highest_specificity_threshold <- coords(roc_obj, "local maximas", ret = "threshold", input = "specificity", transpose = TRUE)
+print(paste("Threshold for z_score with highest specificity:", highest_specificity_threshold))
