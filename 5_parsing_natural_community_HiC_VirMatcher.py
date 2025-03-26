@@ -1,13 +1,14 @@
 import pandas as pd
 import re
 
-# Load the CSV file
+# Load the CSV file from the extracted matrix from the MetaCC output
 df = pd.read_csv('phage_host_nomalized_contact_S.csv')
 
 # Extract the MAG from the string after "MAG_" and before "~"
 df["MAG"] = df["contig1_name"].str.extract(r"MAG_(.*?)~")
 
-# Group by MAG and sum the scores
+#Aggregate the linkages by MAG
+#Group by MAG and sum the scores
 grouped = df.groupby("MAG", as_index=False)["Score"].sum()
 
 # Save the result to a new CSV file
@@ -15,15 +16,18 @@ output_file = "grouped_scores_by_mag_S.csv"
 grouped.to_csv(output_file, index=False)
 
 print(f"Grouped scores have been saved to {output_file}.")
-
+#Calculate Z-Score for the linkages
 mean_score = df['Score'].mean()
 std_dev_score = df['Score'].std()
 df['Z_Score'] = (df['Score'] - mean_score) / std_dev_score
 
+#Load the GTDB predictions for the MAGs
+#Load the virmatcher predictions for the MAGs
 table1 = df  # First table (comma-separated)
 table2 = pd.read_csv('gtdb_combined_summary.tsv', sep='\t')  # Second table (tab-separated)
 virmatcher = pd.read_csv('merged_gtdb_virmatcher_summary.csv')  # Third table (comma-separated)
 
+#keep the prediction with the highest Final_score for each virus
 virmatcher = virmatcher.loc[virmatcher.groupby('Original Viral population')['Final_score'].idxmax()]
 
 # Extract Virus identifier from contig2_name
