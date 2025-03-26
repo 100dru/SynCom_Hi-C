@@ -2,20 +2,18 @@
 #SBATCH --time=5:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=28
-#SBATCH --account=PAS1117
+#SBATCH --account=YOUR_ACCOUNT_NAME
 #SBATCH --job-name=metacc
 #SBATCH --mail-type=ALL
-#SBATCH --mail-user=shatadru.2@osu.edu
+#SBATCH --mail-user=YOUR_EMAIL@example.com
 
-module use /fs/ess/PAS1117/modulefiles
+# Load necessary modules (adjust the module path as needed)
+module use /path/to/your/modulefiles
 module load MetaCC
 
-cd /fs/ess/PAS1117/HiC/6thRoundTests/HiC
+# Change to the working directory (adjust the path as needed)
+cd /path/to/your/working/directory
 
-
-## here filename=${i}. the terminal code is:
-
-#for i in `ls -1 *_MAP_SORTED.bam | sed 's/_MAP_SORTED.bam//'`
-#do sbatch --export=filename=${i} bwa_mock.sh
-#done
-MetaCC norm -e Sau3AI -e MluCI NewHiCRef.fasta ${filename}_MAP_SORTED.bam /fs/ess/PAS1117/HiC/6thRoundTests/HiC/metacc/${filename}_out
+# Normalize MetaCC data
+# Replace 'Sau3AI', 'MluCI', 'NewHiCRef.fasta', and paths with your actual enzyme names, reference file, and output paths
+MetaCC norm -e Sau3AI -e MluCI NewHiCRef.fasta ${filename}_MAP_SORTED.bam /path/to/your/output/directory/${filename}_out
