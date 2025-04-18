@@ -54,4 +54,7 @@ The similar was done for VirMatcher Prediction.
 
 ```python3 5_parsing_natural_community_HiC_VirMatcher.py ```
 
+Plot for HiC and iPHoP comparison was generated using an r script.
+
+``` r 7_hic_iphop_figure.R ```
 
