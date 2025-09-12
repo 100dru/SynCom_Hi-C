@@ -1,6 +1,9 @@
-# Hi-C_draft
+# Synthetic community Hi-C benchmarking provides a baseline for virus-host inferences
 
-For our analysis, we follow an alignment based approach; where we align the Hi-C reads to a reference genome and count aligned reads that have chimeras consisting of viruses and hosts.
+This study evaluates the effectiveness of Hi-C proximity ligation sequencing in identifying virus-host interactions within microbial communities. Using synthetic communities (SynComs) with known virus-host pairs, researchers found that standard Hi-C methods had high sensitivity but low specificity. By applying Z-score filtering, specificity improved significantly, though sensitivity decreased. The study also tested optimized bioinformatics protocols on natural soil samples, comparing Hi-C results with in silico predictions. While congruence was moderate at higher taxonomic levels, it dropped at genus and species levels. Despite limitations, Hi-C revealed hundreds of new virus-host linkages, offering valuable insights and methodological benchmarks for future viromics research.
+doi: https://doi.org/10.1101/2025.02.12.637985 
+
+For our analysis, we follow an alignment based approach; where we align the Hi-C reads to a reference genome and count aligned reads that have chimeras consisting of viruses and hosts. Steps 1, 2 and 3 were ran on a supercomputer. The rest of the scripts were ran on a local computer, with dependencies installed.
 
 ## The Hi-C Analysis Pipeline
 ---
