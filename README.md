@@ -58,3 +58,10 @@ Plot for HiC and iPHoP comparison was generated using an r script.
 
 ``` r 7_hic_iphop_figure.R ```
 
+To test whether any of the predictions from Hi-C and iPHoP were skewed towards a certain taxonomy, the following R script was used.
+
+``` r 8_Taxa_bias_tests.R```
+
+To test whether the predictions change based on the score cutoffs for both Hi-C and iPHoP, the following python code was used.
+
+```python3 9_HiC_iPHoP_score_comparison.py```
