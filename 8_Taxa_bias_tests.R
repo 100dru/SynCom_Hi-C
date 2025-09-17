@@ -10,7 +10,7 @@ peat          <- bind_rows(palsa, bog, fen)
 ip_test       <- read_excel("pbio.3002083.s015.xlsx") #training dataset from iPHoP
 iphop         <- read_csv("iphop.csv") #iPHoP Host_prediction_to_genus_m90.csv,
 iphop_genome  <- read.csv("iphop_genome.csv") # iPHoP Host_prediction_to_genome_mXX.csv
-gtdb          <- read_tsv("gtdb_combined_summary.tsv") # GTDB outputs for the MAGs
+gtdb          <- read_tsv("gtdb_combined_summary.tsv") # GTDB outputs for all the MAGs
 
 # =========================
 # Section 2: Data Curation
@@ -159,3 +159,48 @@ plot_line_phyla2 <- ggplot(merge_hic_test_fam, aes(x = ip_test_counts_family, y 
            hjust = 1.1, vjust = 1.5, size = 5, color = "black") +
   theme_classic2()
 plot_line_phyla2
+
+# =========================
+# Section: Regression - iPHOP Test vs GTDB
+# =========================
+
+# Count phylum occurrences
+ip_test_counts <- ip_test %>%
+  count(phylum, name = "ip_test_count")
+
+gtdb_counts <- gtdb %>%
+  separate(classification, into = c("domain", "phylum", "class", "order", "family", "genus", "species"), sep = ";", remove = FALSE) %>%
+  count(phylum, name = "gtdb_count")
+
+# Merge counts
+merged_iptest_gtdb <- full_join(gtdb_counts, ip_test_counts, by = "phylum")
+merged_iptest_gtdb <- merged_iptest_gtdb %>%
+  mutate(
+    ip_test_count = replace_na(ip_test_count, 0),
+    gtdb_count = replace_na(gtdb_count, 0)
+  )
+
+
+# Linear regression
+lm_model_iptest_gtdb <- lm(gtdb_count ~ ip_test_count, data = merged_iptest_gtdb)
+summary_stats_iptest_gtdb <- summary(lm_model_iptest_gtdb)
+r_squared_iptest_gtdb <- summary_stats_iptest_gtdb$r.squared
+p_value_iptest_gtdb <- summary_stats_iptest_gtdb$coefficients[2, 4]
+
+# Plot
+
+lot_iptest_gtdb <- ggplot(merged_iptest_gtdb, aes(x = ip_test_count, y = gtdb_count)) +
+  geom_point(color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    x = "count of phylum in iPHOP training data",
+    y = "count of phylum in all MAGs from peat sample"
+  ) +
+  annotate("text", x = Inf, y = Inf,
+           label = paste0("R² = ", round(r_squared_iptest_gtdb, 3), "\nP = ", signif(p_value_iptest_gtdb, 3)),
+           hjust = 1.1, vjust = 1.5, size = 5, color = "black") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.05))) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  theme_classic2()
+
+lot_iptest_gtdb
