@@ -49,7 +49,7 @@ For Further analysis, the mock community Hi-C linkages were joined by each bacte
 
 For further analysis, the rest of the scripts are generated for merging tables, Z-score calculation and figure analysis. 
 
-The Hi-C Linkages were aggregated by MAGs and then they were joined to their GTDB prediction by MAG and the iPHoP Prediction by virus.
+The Hi-C Linkages were aggregated by MAGs, Z-Score was calculated and then they were joined to their GTDB prediction by MAG and the iPHoP Prediction by virus.
 
 ```python3 5_parsing_natural_community_HiC_iPHoP.py ```
 
